@@ -10,6 +10,7 @@ from recipe import views
 router = DefaultRouter()
 # views.RecipeViewSet create all root urls for api
 router.register('recipes', views.RecipeViewSet)
+router.register('tags', views.TagViewSet)
 
 app_name = 'recipe'
 
