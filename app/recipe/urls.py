@@ -11,6 +11,7 @@ router = DefaultRouter()
 # views.RecipeViewSet create all root urls for api
 router.register('recipes', views.RecipeViewSet)
 router.register('tags', views.TagViewSet)
+router.register('ingredients', views.IngredientViewSet)
 
 app_name = 'recipe'
 
