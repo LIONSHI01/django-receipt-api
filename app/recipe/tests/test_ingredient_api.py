@@ -26,14 +26,14 @@ def create_user(email='user@@example.com', password='testpass1223'):
                                                 password=password)
 
 
-def create_ingredient(user, **params):
-    """Create and return a sample ingredient."""
-    defaults = {
-        'name': 'Sample ingredient'
-    }
-    defaults.update(params)
-    ingredient = Ingredient.objects.create(user=user, **defaults)
-    return ingredient
+# def create_ingredient(user, **params):
+#     """Create and return a sample ingredient."""
+#     defaults = {
+#         'name': 'Sample ingredient'
+#     }
+#     defaults.update(params)
+#     ingredient = Ingredient.objects.create(user=user, **defaults)
+#     return ingredient
 
 
 class PublicIngredientsApiTests(TestCase):
