@@ -258,10 +258,8 @@ class PrivateRecipeApiTests(TestCase):
         recipe = create_recipe(user=self.user)
         recipe.tags.add(tag_breakfast)
         tag_lunch = Tag.objects.create(user=self.user, name='Lunch')
+        payload = {'tags': [{'name': 'Lunch'}]}
         url = detail_url(recipe.id)
-        payload = {
-            'tags': [{'name': 'Lunch'}]
-        }
         res = self.client.patch(url, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
@@ -270,8 +268,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_clear_recipe_tags(self):
         """Test clearing a recipe tags."""
+        tag = Tag.objects.create(user=self.user, name='Dessert')
         recipe = create_recipe(user=self.user)
-        tag = Tag.objects.create(user=self.user)
         recipe.tags.add(tag)
 
         payload = {'tags': []}
@@ -307,10 +305,10 @@ class PrivateRecipeApiTests(TestCase):
         ingredient = Ingredient.objects.create(user=self.user, name='Lemon')
         ingredient = Ingredient.objects.create(user=self.user, name='Lemon')
         payload = {
-            "title": 'Cauliflower Tacos',
-            "time_minutes": 60,
-            "price": Decimal('4.30'),
-            'ingredients': [{'name': 'Lemon'}, {'name': 'salt'}]
+            'title': 'Vietnamese Soup',
+            "time_minutes": 25,
+            "price": Decimal('2.55'),
+            'ingredients': [{'name': 'Lemon'}, {'name': 'Fish Sauce'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -322,6 +320,6 @@ class PrivateRecipeApiTests(TestCase):
         for ingredient in payload['ingredients']:
             exists = recipe.ingredients.filter(
                 user=self.user,
-                name=ingredient['name']
+                name=ingredient['name'],
             ).exists()
             self.assertTrue(exists)
