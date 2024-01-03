@@ -7,9 +7,10 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.models import (
-    Ingredient,
     Recipe,
-    Tag,)
+    Tag,
+    Ingredient,
+)
 from recipe.serializers import (
     RecipeSerializer,
     RecipeDetailSerializer,
@@ -30,7 +31,7 @@ def create_recipe(user, **params):
         'time_minutes': 22,
         'price': Decimal('5.25'),
         'description': 'Sample description',
-        'link': 'http://example.com/recipe.com',
+        'link': 'http://example.com/recipe.pdf',
     }
     defaults.update(params)
 
@@ -303,7 +304,6 @@ class PrivateRecipeApiTests(TestCase):
     def test_create_recipe_with_existing_ingredient(self):
         """Test creating a new recipe with existing ingredient."""
         ingredient = Ingredient.objects.create(user=self.user, name='Lemon')
-        ingredient = Ingredient.objects.create(user=self.user, name='Lemon')
         payload = {
             'title': 'Vietnamese Soup',
             "time_minutes": 25,
@@ -319,7 +319,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertIn(ingredient, recipe.ingredients.all())
         for ingredient in payload['ingredients']:
             exists = recipe.ingredients.filter(
-                user=self.user,
                 name=ingredient['name'],
+                user=self.user,
             ).exists()
             self.assertTrue(exists)
